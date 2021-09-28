@@ -46,7 +46,7 @@
         <h3>login</h3>
         <input type="email" class="box" id="email_field" placeholder="enter your email">
         <input type="password" class="box" id="password_field" placeholder="enter your password">
-        <input value="login now" class="btn" onclick="clickLogin()">
+        <input value="login" class="btn" onclick="clickLogin()">
         <!--
             <input type="checkbox" id="remember">
         <label for="remember">remember me</label>
@@ -90,15 +90,26 @@
 
     <div class="row" id="userLogged">
         
-        <p>logado</p>
-        <p>logado</p>
-        <p>logado</p>
-        <p>logado</p>
-        <p>logado</p>
-        <p>logado</p>
-        <p>logado</p>
-        <p>logado</p>
-        <p>logado</p>
+        <ul>
+            <li>
+                <button type="button" onclick="loadLanchonete()">Lanchonete</button>
+                <div id="userLoggedLanchonete">
+
+                </div>
+            </li>
+            <li>
+                <button type="button">Pizzaria</button>
+            </li>
+            <li>
+                <button type="button">Sorveteria</button>
+            </li>
+            <li>
+                <button type="button" onclick="loadAdittionals()">Adicionais Sorveteria</button>
+                <div id="userLoggedAdittionals">
+
+                </div>
+            </li>
+        </ul>
 
     </div>
 
