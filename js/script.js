@@ -27,11 +27,13 @@ onAuthStateChanged(auth, (user) => {
     document.getElementById("logout_Modal").style.display = "initial";
     document.getElementById("login_Modal").style.display = "none";
     document.getElementById("userLogged").style.display = "flex";
+    document.getElementById("userNotLogged").style.display = "none";
   } else {
     isLogged = false;
     document.getElementById("logout_Modal").style.display = "none";
     document.getElementById("login_Modal").style.display = "initial";
     document.getElementById("userLogged").style.display = "none";
+    document.getElementById("userNotLogged").style.display = "flex";
   }
 })
 

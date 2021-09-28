@@ -48,6 +48,11 @@ section{
   background:none;
 }
 
+#userNotLogged {
+  align-items: center;
+  flex-direction: column;
+}
+
 .btn{
   display: inline-block;
   margin-top: 1rem;
