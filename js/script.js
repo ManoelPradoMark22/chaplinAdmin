@@ -2,6 +2,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged , signOut  } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
+// Get the modal
+var modal = document.getElementById("myModal");
+
+function closeModal() {
+  modal.style.display = "none";
+}
+
+function openModal() {
+  modal.style.display = "flex";
+}
+
 const firebaseApp = initializeApp({
   apiKey: "AIzaSyBjp1xZR6T0fBs4uYST8PNV7rC2rUxNjpg",
   authDomain: "e-commerce-3c41b.firebaseapp.com",
@@ -38,29 +49,32 @@ onAuthStateChanged(auth, (user) => {
 })
 
 window.clickLogin = function clickLogin() {
-
+  openModal();
   var userEmail = document.getElementById("email_field").value;
   var userPass = document.getElementById("password_field").value;
 
   signInWithEmailAndPassword(auth, userEmail, userPass)
   .then((userCredential) => {
+    closeModal();
     // Signed in
     const user = userCredential.user;
-    console.log(user);
     // ...
   })
   .catch((error) => {
+    closeModal();
     const errorCode = error.code;
     const errorMessage = error.message;
-    console.log(errorMessage);
+    alert(errorMessage);
   });
 }
 
 window.clickLogout = function clickLogout() {
+  openModal();
   signOut(auth).then(() => {
-    console.log('logout sucessfuly');
+    closeModal();
   }).catch((error) => {
-    console.log('erro ao efetuar logout');
+    closeModal();
+    alert(error.message);
   });
 }
 
@@ -72,8 +86,10 @@ function showArrLachonete(arr) {
 }
 
 window.loadLanchonete = async function loadLanchonete() {
+  openModal();
   try {
     await onValue(lanchoneteRef, (snapshot) => {
+      closeModal();
       showArrLachonete(snapshot.val());
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
       document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map(subsec => 
@@ -92,25 +108,33 @@ window.loadLanchonete = async function loadLanchonete() {
 
 
     }, (error) => {
+      closeModal();
       alert('Erro ao carregar! Verifique sua conexão e carregue novamente a página!');
-      console.log('Erro ao carregar dados!');
     })
   } catch {
+    closeModal();
     alert('Erro ao carregar! Verifique sua conexão e carregue novamente a página!');
   }
 }
 
 window.changeAvailableAdd = function changeAvailableAdd(index, availability) {
+  openModal();
   const addItemRef = ref(db, `adittionals/${index}/available`);
 
-  set(addItemRef, availability , (error) => {
+  set(addItemRef, availability).then(() => {
+    closeModal();
+    alert('Editado com sucesso!');
+  }).catch((error) => {
+    closeModal();
     alert('Erro ao atualizar! Verifique sua conexão e carregue novamente a página!');
   });
 }
 
 window.loadAdittionals = async function loadAdittionals() {
+  openModal();
   try {
     await onValue(acaiRef, (snapshot) => {
+      closeModal();
       showArrLachonete(snapshot.val());
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
       document.getElementById('userLoggedAdittionals').innerHTML = snapshot.val().map((add, index) => 
@@ -124,10 +148,11 @@ window.loadAdittionals = async function loadAdittionals() {
 
     }, (error) => {
       alert('Erro ao carregar! Verifique sua conexão e carregue novamente a página!');
-      console.log('Erro ao carregar dados!');
+      closeModal();
     })
   } catch {
     alert('Erro ao carregar! Verifique sua conexão e carregue novamente a página!');
+    closeModal();
   }
 }
 
