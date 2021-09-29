@@ -33,8 +33,6 @@ const firebaseApp = initializeApp({
   measurementId: "G-86PHKPHGWE"
 });
 
-let isLogged = false;
-
 const db = getDatabase(firebaseApp);
 const lanchoneteRef = ref(db, 'lanchonete/');
 const acaiRef = ref(db, 'adittionals/');
@@ -43,13 +41,11 @@ const auth = getAuth();
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    isLogged = true;
     document.getElementById("logout_Modal").style.display = "initial";
     document.getElementById("login_Modal").style.display = "none";
     document.getElementById("userLogged").style.display = "flex";
     document.getElementById("userNotLogged").style.display = "none";
   } else {
-    isLogged = false;
     document.getElementById("logout_Modal").style.display = "none";
     document.getElementById("login_Modal").style.display = "initial";
     document.getElementById("userLogged").style.display = "none";
