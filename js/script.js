@@ -7,9 +7,9 @@ window.addEventListener('offline', updateStatus);
 
 function updateStatus(event) {
   if(navigator.onLine) {
-    alert('online');
+    document.getElementById("divStatusConnection").style.display = "none";
   } else {
-    alert('offline');
+    document.getElementById("divStatusConnection").style.display = "block";
   }
 }
 
@@ -162,7 +162,7 @@ function hideSuccessIcon() {
 
 function showSuccessIcon() {
   document.getElementById("divSuccessIcon").style.display = "flex";
-  setTimeout(hideSuccessIcon, 2000);
+  setTimeout(hideSuccessIcon, 1000);
 }
 
 window.changeAvailableAdd = function changeAvailableAdd(index, availability) {

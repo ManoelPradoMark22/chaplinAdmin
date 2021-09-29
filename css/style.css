@@ -8,7 +8,6 @@
   font-family: 'Nunito', sans-serif;
   margin:0; padding:0;
   box-sizing: border-box;
-  text-transform: capitalize;
   outline: none; border:none;
   text-decoration: none;
   transition: all .2s linear;
@@ -64,6 +63,7 @@ section{
 }
 
 .heading{
+  text-transform: capitalize;
   text-align: center;
   padding:2.5rem 0;
   margin-top: 10rem;
@@ -740,4 +740,15 @@ header .search-bar-container label:hover{
     width:100%;
   }
 
+}
+
+.connectionStatus {
+  background-color: black;
+  position: fixed;
+  bottom: 0;
+  color: white;
+  width: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  padding: .2rem 0;
 }
