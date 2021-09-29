@@ -5,12 +5,21 @@ import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebase
 // Get the modal
 var modal = document.getElementById("myModal");
 
+function DezSegundos(){
+  document.getElementById("textLoading").innerHTML = `Aguarde, carregando...<br>Verifique sua conexão...`;
+}
+
+var mySetTime;
+
 function closeModal() {
+  clearTimeout(mySetTime);
   modal.style.display = "none";
+  document.getElementById("textLoading").innerHTML = `Aguarde, carregando...`;
 }
 
 function openModal() {
   modal.style.display = "flex";
+  mySetTime = setTimeout(DezSegundos, 10000);
 }
 
 const firebaseApp = initializeApp({
@@ -63,8 +72,30 @@ window.clickLogin = function clickLogin() {
   .catch((error) => {
     closeModal();
     const errorCode = error.code;
-    const errorMessage = error.message;
-    alert(errorMessage);
+    /*const errorMessage = error.message; */
+    switch(errorCode){
+      case 'auth/user-not-found':
+        alert("Usuário não encontrado! | "+errorCode);
+        break;
+      case 'auth/wrong-password':
+        alert("Senha incorreta! | "+errorCode);
+        break;
+      case 'auth/invalid-email':
+        alert("E-mail inválido! | "+errorCode);
+        break;
+      case 'auth/internal-error':
+        alert("Erro interno! Verifique seus dados e sua conexão! | "+errorCode);
+        break;
+      case 'auth/timeout':
+        alert("Erro ao fazer login. Verifique sua conexão! | "+errorCode);
+        break;
+      case 'auth/network-request-failed' :
+        alert("Erro ao fazer login. Verifique sua conexão! | "+errorCode);
+        break;
+      default:
+        alert("Erro ao fazer login. Verifique sua conexão! | "+errorCode);
+        break;
+    }
   });
 }
 
@@ -74,7 +105,7 @@ window.clickLogout = function clickLogout() {
     closeModal();
   }).catch((error) => {
     closeModal();
-    alert(error.message);
+    alert("Erro ao fazer logout! Verifique sua conexão e tente novamente!");
   });
 }
 
