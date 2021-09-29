@@ -80,7 +80,8 @@ section{
   background:none;
 }
 
-#userNotLogged {
+#userNotLogged,
+#firstLoadPage {
   align-items: center;
   flex-direction: column;
 }

@@ -40,6 +40,7 @@ const acaiRef = ref(db, 'adittionals/');
 const auth = getAuth();
 
 onAuthStateChanged(auth, (user) => {
+  document.getElementById("firstLoadPage").style.display = "none";
   if (user) {
     document.getElementById("logout_Modal").style.display = "initial";
     document.getElementById("login_Modal").style.display = "none";
