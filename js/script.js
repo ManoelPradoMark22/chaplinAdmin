@@ -2,6 +2,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged , signOut  } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
+window.addEventListener('online', updateStatus);
+window.addEventListener('offline', updateStatus);
+
+function updateStatus(event) {
+  if(navigator.onLine) {
+    alert('online');
+  } else {
+    alert('offline');
+  }
+}
+
 // Get the modal
 var modal = document.getElementById("myModal");
 
@@ -145,13 +156,22 @@ window.loadLanchonete = async function loadLanchonete() {
   }
 }
 
+function hideSuccessIcon() {
+  document.getElementById("divSuccessIcon").style.display = "none";
+}
+
+function showSuccessIcon() {
+  document.getElementById("divSuccessIcon").style.display = "flex";
+  setTimeout(hideSuccessIcon, 2000);
+}
+
 window.changeAvailableAdd = function changeAvailableAdd(index, availability) {
   openModal();
   const addItemRef = ref(db, `adittionals/${index}/available`);
 
   set(addItemRef, availability).then(() => {
     closeModal();
-    alert('Editado com sucesso!');
+    showSuccessIcon();
   }).catch((error) => {
     closeModal();
     alert('Erro ao atualizar! Verifique sua conexão e carregue novamente a página!');
