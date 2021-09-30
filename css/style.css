@@ -2,6 +2,7 @@
 
 :root{
   --orange:#ffa500;
+  --yellow: #F7CA3E;
 }
 
 *{
@@ -105,7 +106,7 @@ section{
 }
 
 .titleSection span{
-  color:#F7CA3E;
+  color:var(--yellow);
 }
 
 .buttonLoadSection{
@@ -117,11 +118,11 @@ section{
   color: black;
   cursor: pointer;
   user-select: none;
-  border:.2rem solid #F7CA3E;
+  border:.2rem solid var(--yellow);
 }
 
 .buttonLoadSection:hover{
-  background: #F7CA3E;
+  background: var(--yellow);
 }
 
 .sectionsFB {
@@ -219,11 +220,11 @@ section{
   display: flex;
   align-items: center;
   justify-content: center;
-  border:.2rem solid #F7CA3E;
+  border:.2rem solid var(--yellow);
 }
 
 .userContentData button:hover{
-  background: #F7CA3E;
+  background: var(--yellow);
 }
 
 .btn{
@@ -235,6 +236,8 @@ section{
   border:.2rem solid var(--orange);
   cursor: pointer;
   font-size: 1.7rem;
+  text-align: center;
+  user-select: none;
 }
 
 .btn:hover{
