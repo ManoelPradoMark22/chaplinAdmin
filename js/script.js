@@ -183,12 +183,13 @@ window.loadAdittionals = async function loadAdittionals() {
   try {
     await onValue(acaiRef, (snapshot) => {
       closeModal();
-      showArrLachonete(snapshot.val());
+      /*showArrLachonete(snapshot.val()); */
+      document.getElementById("idButtonLoadSectionAdittionals").style.display = "none";
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
       document.getElementById('userLoggedAdittionals').innerHTML = snapshot.val().map((add, index) => 
-        `<div>
+        `<div class="userContentData">
           <h1>${add.name}</h1>
-          <h3>Estado atual: ${add.available ? 'Disponível' : 'Indisponível'}</h3>
+          <h3>${add.available ? 'Disponível' : 'Indisponível'}</h3>
           <button type="button" onclick="changeAvailableAdd(${index}, ${!add.available})">Marcar como ${add.available ? 'Indisponível' : 'Disponível'}</button>
         </div>`
       ).join('')

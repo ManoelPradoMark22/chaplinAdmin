@@ -139,26 +139,28 @@
 
     <div class="row" id="userLogged" style="display: none">
         
-        <ul>
-            <li>
-                <button type="button" onclick="loadLanchonete()">Lanchonete</button>
-                <div id="userLoggedLanchonete">
+        <div class="sectionsFB">
+            <div class="titleSection">Lanchonete</div>
+            <button class="buttonLoadSection" type="button" onclick="loadLanchonete()">Carregar dados</button>
+            <div id="userLoggedLanchonete">
 
-                </div>
-            </li>
-            <li>
-                <button type="button">Pizzaria</button>
-            </li>
-            <li>
-                <button type="button">Sorveteria</button>
-            </li>
-            <li>
-                <button type="button" onclick="loadAdittionals()">Adicionais Sorveteria</button>
-                <div id="userLoggedAdittionals">
+            </div>
+        </div>
+        <div class="sectionsFB">
+            <div class="titleSection">Pizzaria</div>
+            <button class="buttonLoadSection" type="button">Carregar dados</button>
+        </div>
+        <div class="sectionsFB">
+            <div class="titleSection">Sorveteria</div>
+            <button id="idButtonLoadSectionAdittionals" class="buttonLoadSection" type="button" onclick="loadAdittionals()">Carregar dados</button>
+            <div id="userLoggedAdittionals">
 
-                </div>
-            </li>
-        </ul>
+            </div>
+        </div>
+        <div class="sectionsFB">
+            <div class="titleSection">Padaria</div>
+            <button class="buttonLoadSection" type="button">Carregar dados</button>
+        </div>
 
     </div>
 
