@@ -28,6 +28,11 @@ html{
   background-color: rgba(255,255,255) !important;
 }
 
+html[data-theme='dark']{
+  background: rgba(255,255,255) !important;
+  background-color: rgba(255,255,255) !important;
+}
+
 @media (prefers-color-scheme: dark) {
   html{
     background: rgba(255,255,255) !important;
