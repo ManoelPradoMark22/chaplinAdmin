@@ -181,19 +181,31 @@ section{
   border-bottom: .1rem dashed rgba(0,0,0,.2);
 }
 
+@keyframes neon {
+  from {
+    box-shadow: 0 0 0 var(--cor-neon);
+  }
+  to {
+    box-shadow: 0 0 30px var(--cor-neon);
+  }
+}
+
 .circleAvailabilty {
   width: .8rem;
   height: .8rem;
   margin-right: .1rem;
   border-radius: 50%;
+  animation: neon 2s alternate infinite ease-in-out;
 }
 
 .colorRed {
-  background: #ff3366;
+  background-color: #ff3366;
+  --cor-neon: #ff3366;
 }
 
 .colorGreen {
-  background: #00CA5E;
+  background-color: #00CA5E;
+  --cor-neon: #00CA5E;
 }
 
 .userContentData button{
