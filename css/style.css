@@ -28,6 +28,11 @@ html{
   background-color: rgba(255,255,255) !important;
 }
 
+body {
+  background: rgba(255,255,255) !important;
+  background-color: rgba(255,255,255) !important;
+}
+
 section{
   padding:2rem 9%;
 }
