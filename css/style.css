@@ -169,9 +169,31 @@ section{
 }
 
 .userContentData h3{
+  
+}
+
+.boxAvaiability {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: .5rem 0 1rem;
   border-top: .1rem dashed rgba(0,0,0,.2);
   border-bottom: .1rem dashed rgba(0,0,0,.2);
+}
+
+.circleAvailabilty {
+  width: .8rem;
+  height: .8rem;
+  margin-right: .1rem;
+  border-radius: 50%;
+}
+
+.colorRed {
+  background: red;
+}
+
+.colorGreen {
+  background: green;
 }
 
 .userContentData button{

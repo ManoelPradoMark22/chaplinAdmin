@@ -189,7 +189,10 @@ window.loadAdittionals = async function loadAdittionals() {
       document.getElementById('userLoggedAdittionals').innerHTML = snapshot.val().map((add, index) => 
         `<div class="userContentData">
           <h1>${add.name}</h1>
-          <h3>${add.available ? 'Disponível' : 'Indisponível'}</h3>
+          <div class="boxAvaiability">
+            <div class="circleAvailabilty ${add.available ? 'colorGreen' : 'colorRed'}"></div>
+            <h3>${add.available ? 'Disponível' : 'Indisponível'}</h3>
+          </div>
           <button type="button" onclick="changeAvailableAdd(${index}, ${!add.available})">Marcar como ${add.available ? 'Indisponível' : 'Disponível'}</button>
         </div>`
       ).join('')
