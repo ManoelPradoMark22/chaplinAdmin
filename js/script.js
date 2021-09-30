@@ -193,7 +193,7 @@ window.loadAdittionals = async function loadAdittionals() {
             <div class="circleAvailabilty ${add.available ? 'colorGreen' : 'colorRed'}"></div>
             <h3>${add.available ? 'Disponível' : 'Indisponível'}</h3>
           </div>
-          <button type="button" onclick="changeAvailableAdd(${index}, ${!add.available})">Marcar como ${add.available ? 'Indisponível' : 'Disponível'}</button>
+          <button type="button" onclick="changeAvailableAdd(${index}, ${!add.available})">Alternar</button>
         </div>`
       ).join('')
 
