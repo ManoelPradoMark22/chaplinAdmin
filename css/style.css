@@ -856,7 +856,7 @@ header .search-bar-container label:hover{
 
 }
 
-@media (max-width:450px){
+@media (max-width:500px){
 
   html{
     font-size: 50%;
@@ -864,10 +864,29 @@ header .search-bar-container label:hover{
 
   .heading span{
     font-size: 2.5rem;
+    padding:.2rem .7rem;
   }
 
   .contact .row form .inputBox input{
     width:100%;
+  }
+
+}
+
+@media (max-width:380px){
+
+  .heading span{
+    font-size: 2rem;
+    padding:.1rem .4rem;
+  }
+
+}
+
+@media (max-width:290px){
+
+  .heading span{
+    font-size: 1.5rem;
+    padding:.1rem .2rem;
   }
 
 }
