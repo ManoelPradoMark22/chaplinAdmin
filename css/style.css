@@ -24,7 +24,7 @@ html{
   overflow-x: hidden;
   scroll-padding-top: 6rem;
   scroll-behavior: smooth;
-  background-color: transparent !important;
+  background-color: rgba(255,255,255) !important;
 }
 
 section{
