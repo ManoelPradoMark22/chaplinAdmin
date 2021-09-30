@@ -13,6 +13,16 @@ function updateStatus(event) {
   }
 }
 
+let formBtn = document.querySelector('#login-btn');
+let loginForm = document.querySelector('.login-form-container');
+let formClose = document.querySelector('#form-close');
+
+let refModalLog = document.getElementById("modalLogin");
+
+function closeFormLogin() {
+  refModalLog.classList.remove('active');
+}
+
 // Get the modal
 var modal = document.getElementById("myModal");
 
@@ -73,6 +83,7 @@ window.clickLogin = function clickLogin() {
   signInWithEmailAndPassword(auth, userEmail, userPass)
   .then((userCredential) => {
     closeModal();
+    closeFormLogin();
     // Signed in
     const user = userCredential.user;
     // ...
@@ -111,6 +122,7 @@ window.clickLogout = function clickLogout() {
   openModal();
   signOut(auth).then(() => {
     closeModal();
+    closeFormLogin();
   }).catch((error) => {
     closeModal();
     alert("Erro ao fazer logout! Verifique sua conexão e tente novamente!");
@@ -210,11 +222,7 @@ window.loadAdittionals = async function loadAdittionals() {
 
 
 
-//CODE
-
-let formBtn = document.querySelector('#login-btn');
-let loginForm = document.querySelector('.login-form-container');
-let formClose = document.querySelector('#form-close');
+//CLOSE AND OPEN LOGIN/LOGOUT FORM
 
 
 formBtn.addEventListener('click', () =>{
