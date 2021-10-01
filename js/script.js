@@ -141,6 +141,17 @@ function convertToReal(value) {
   return valueConverted;
 }
 
+window.clickAccordion = function clickAccordion(elem) {
+  console.log('clique botao');
+  elem.classList.toggle("accordionActivate");
+  var panel = elem.nextElementSibling;
+  if (panel.style.display === "flex") {
+  panel.style.display = "none";
+  } else {
+  panel.style.display = "flex";
+  }
+}
+
 window.loadLanchonete = async function loadLanchonete() {
   openModal();
   try {
@@ -151,8 +162,8 @@ window.loadLanchonete = async function loadLanchonete() {
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
       document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map(subsec => 
         `<div>
-          <h1 style="text-align: center;">${subsec.name}</h1>
-          <div class="boxWrapContent">
+          <button type="button" class="accordion" onclick="clickAccordion(this)">${subsec.name}</button>
+          <div class="panel boxWrapContent">
             ${subsec.products.map(prod =>
               `
                 <div class="userContentData userContentDataNormal">
