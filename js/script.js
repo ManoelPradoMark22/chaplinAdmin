@@ -155,7 +155,8 @@ window.loadLanchonete = async function loadLanchonete() {
           <div class="boxWrapContent">
             ${subsec.products.map(prod =>
               `
-                <div class="userContentData">
+                <div class="userContentData userContentDataNormal">
+                  <i class="far fa-edit iconEditProd" title="Editar"></i>
                   <h1>${prod.name}</h1>
                   <div>${prod.description}</div>
                   <div>${convertToReal(prod.priceNumb)}</div>
@@ -218,7 +219,7 @@ window.loadAdittionals = async function loadAdittionals() {
       document.getElementById("idButtonLoadSectionAdittionals").style.display = "none";
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
       document.getElementById('userLoggedAdittionals').innerHTML = snapshot.val().map((add, index) => 
-        `<div class="userContentData">
+        `<div class="userContentData userContentDataSmall">
           <h1>${add.name}</h1>
           <div class="boxAvaiability">
             <div class="circleAvailabilty ${add.available ? 'colorGreen' : 'colorRed'}"></div>
