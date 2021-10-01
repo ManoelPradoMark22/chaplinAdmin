@@ -147,6 +147,7 @@ window.loadLanchonete = async function loadLanchonete() {
     await onValue(lanchoneteRef, (snapshot) => {
       closeModal();
       showArrLachonete(snapshot.val());
+      document.getElementById("idButtonLoadSectionLanchonete").style.display = "none";
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
       document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map(subsec => 
         `<div>
@@ -162,7 +163,12 @@ window.loadLanchonete = async function loadLanchonete() {
                     <span>Link da imagem: </span>
                     <a href=${prod.img} target="_blank">
                     ${prod.img}
-                    </a></div>
+                    </a>
+                  </div>
+                  <div class="boxAvaiability">
+                    <div class="circleAvailabilty ${prod.available ? 'colorGreen' : 'colorRed'}"></div>
+                    <h3>${prod.available ? 'Disponível' : 'Indisponível'}</h3>
+                  </div>
                 </div>
               `
             ).join('')}
