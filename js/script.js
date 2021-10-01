@@ -136,6 +136,11 @@ function showArrLachonete(arr) {
   lanchoneteArray = arr;
 }
 
+function convertToReal(value) {
+  const valueConverted = value.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
+  return valueConverted;
+}
+
 window.loadLanchonete = async function loadLanchonete() {
   openModal();
   try {
@@ -145,15 +150,23 @@ window.loadLanchonete = async function loadLanchonete() {
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
       document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map(subsec => 
         `<div>
-          <h1>${subsec.name}</h1>
-          ${subsec.products.map(prod =>
-            `
-              <p>
-                <div>${prod.name}</div>
-                <div>${prod.description}</div>
-              </p>
-            `
-          ).join('')}
+          <h1 style="text-align: center;">${subsec.name}</h1>
+          <div class="boxWrapContent">
+            ${subsec.products.map(prod =>
+              `
+                <div class="userContentData">
+                  <h1>${prod.name}</h1>
+                  <div>${prod.description}</div>
+                  <div>${convertToReal(prod.priceNumb)}</div>
+                  <div>
+                    <span>Link da imagem: </span>
+                    <a href=${prod.img} target="_blank">
+                    ${prod.img}
+                    </a></div>
+                </div>
+              `
+            ).join('')}
+          </div>
         </div>`
       ).join('')
 
