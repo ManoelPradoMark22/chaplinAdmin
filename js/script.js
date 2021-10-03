@@ -164,10 +164,28 @@ let inputDescription = document.getElementById("description_field");
 let inputValue = document.getElementById("value_field");
 let inputLinkImg = document.getElementById("linkImg_field");
 
+const inputValueQuery = document.querySelector('input[name="priceProd"]');
+
+inputValueQuery.addEventListener("keydown", function(e) {
+  setTimeout(function() {
+    let value = e.target.value;
+
+    value = value.replace(/\D/g,"");
+
+    value = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(value/100);
+
+    e.target.value = value;
+  }, 1)
+});
+
+
 window.openEditModal = function openEditModal(index1, index2, objProd){
   inputName.value = objProd.name;
   inputDescription.value = objProd.description;
-  inputValue.value = objProd.value;
+  inputValue.value = convertToReal(objProd.value);
   inputLinkImg.value = objProd.imgLink;
 
   refModalEditProd.classList.add('active');
