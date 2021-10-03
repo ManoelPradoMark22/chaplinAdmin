@@ -152,6 +152,17 @@ window.clickAccordion = function clickAccordion(elem) {
   }
 }
 
+let refModalEditProd = document.getElementById("modalEditProd");
+let formEditProdClose = document.querySelector('#formEditProd-close');
+
+formEditProdClose.addEventListener('click', () =>{
+  refModalEditProd.classList.remove('active');
+});
+
+window.openEditModal = function openEditModal(index1, index2, objProd){
+  refModalEditProd.classList.add('active');
+}
+
 window.loadLanchonete = async function loadLanchonete() {
   openModal();
   try {
@@ -160,14 +171,25 @@ window.loadLanchonete = async function loadLanchonete() {
       showArrLachonete(snapshot.val());
       document.getElementById("idButtonLoadSectionLanchonete").style.display = "none";
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
-      document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map(subsec => 
+      document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map((subsec, index1) => 
         `<div>
           <button type="button" class="accordion" onclick="clickAccordion(this)">${subsec.name}</button>
           <div class="panel boxWrapContent">
-            ${subsec.products.map(prod =>
+            ${subsec.products.map( (prod, index2) =>
               `
                 <div class="userContentData userContentDataNormal">
-                  <i class="far fa-edit iconEditProd" title="Editar"></i>
+                  <i class="far fa-edit iconEditProd" title="Editar" onclick="openEditModal(
+                    ${index1},
+                    ${index2},
+                    {
+                      name: '${prod.name}',
+                      description: '${prod.description}',
+                      value: ${prod.priceNumb},
+                      imgLink: '${prod.img}',
+                      available: ${prod.available},
+                    })"
+                    >
+                  </i>
                   <h1>${prod.name}</h1>
                   <div>${prod.description}</div>
                   <div>${convertToReal(prod.priceNumb)}</div>

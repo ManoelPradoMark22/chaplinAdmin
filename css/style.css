@@ -434,6 +434,14 @@ header .search-bar-container label:hover{
   cursor: pointer;
 }
 
+.login-form-container #formEditProd-close{
+  position: absolute;
+  top:2rem; right:3rem;
+  font-size: 5rem;
+  color:#fff;
+  cursor: pointer;
+}
+
 #menu-bar{
   color:#fff;
   border:.1rem solid #fff;
