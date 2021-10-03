@@ -175,20 +175,61 @@ inputValueQuery.addEventListener("keydown", function(e) {
     value = new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
+      useGrouping: false,
     }).format(value/100);
 
     e.target.value = value;
   }, 1)
 });
 
+let editItemRef;
+let otherInfoLanch;
 
 window.openEditModal = function openEditModal(index1, index2, objProd){
+  editItemRef = ref(db, `lanchonete/subsections/${index1}/products/${index2}`);
+
   inputName.value = objProd.name;
   inputDescription.value = objProd.description;
-  inputValue.value = convertToReal(objProd.value);
+  inputValue.value = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    useGrouping: false,
+  }).format(objProd.value);
   inputLinkImg.value = objProd.imgLink;
 
+  otherInfoLanch = {
+    available: objProd.available,
+    id: objProd.id,
+    display: objProd.display,
+    price: objProd.price,
+    number: objProd.number
+  };
+
   refModalEditProd.classList.add('active');
+}
+
+window.clickEditProd = function clickEditProd() {
+  var justDot = inputValue.value.replace('R$', "");
+  justDot = justDot.replace(',', ".");
+  justDot = parseFloat(justDot);
+  openModal();
+  set(editItemRef, {
+   name: inputName.value,
+   description: inputDescription.value,
+   priceNumb: justDot,
+   img: inputLinkImg.value,
+   available: otherInfoLanch.available,
+   id: otherInfoLanch.id,
+   display: otherInfoLanch.display,
+   price: otherInfoLanch.price,
+   number: otherInfoLanch.number
+  }).then(() => {
+    closeModal();
+    showSuccessIcon();
+  }).catch((error) => {
+    closeModal();
+    alert('Erro ao editar! Verifique sua conexão e carregue novamente a página!');
+  });
 }
 
 window.loadLanchonete = async function loadLanchonete() {
@@ -215,6 +256,10 @@ window.loadLanchonete = async function loadLanchonete() {
                       value: ${prod.priceNumb},
                       imgLink: '${prod.img}',
                       available: ${prod.available},
+                      id: '${prod.id}',
+                      display: '${prod.display}',
+                      price: '${prod.price}',
+                      number: '${prod.number}'
                     })"
                     >
                   </i>
