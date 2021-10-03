@@ -159,7 +159,17 @@ formEditProdClose.addEventListener('click', () =>{
   refModalEditProd.classList.remove('active');
 });
 
+let inputName = document.getElementById("name_field");
+let inputDescription = document.getElementById("description_field");
+let inputValue = document.getElementById("value_field");
+let inputLinkImg = document.getElementById("linkImg_field");
+
 window.openEditModal = function openEditModal(index1, index2, objProd){
+  inputName.value = objProd.name;
+  inputDescription.value = objProd.description;
+  inputValue.value = objProd.value;
+  inputLinkImg.value = objProd.imgLink;
+
   refModalEditProd.classList.add('active');
 }
 
