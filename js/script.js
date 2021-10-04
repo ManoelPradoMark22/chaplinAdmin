@@ -289,6 +289,7 @@ window.loadLanchonete = async function loadLanchonete() {
                     <div class="circleAvailabilty ${prod.available ? 'colorGreen' : 'colorRed'}"></div>
                     <h3>${prod.available ? 'Disponível' : 'Indisponível'}</h3>
                   </div>
+                  <button type="button" onclick="changeAvailableLanchonete(${index1}, ${index2}, ${!prod.available})">Alternar disponibilidade</button>
                 </div>
               `
             ).join('')}

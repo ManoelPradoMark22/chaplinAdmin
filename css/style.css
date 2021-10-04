@@ -206,7 +206,7 @@ section{
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: .5rem 0 1rem;
+  margin: .5rem 0;
   border-top: .1rem dashed rgba(0,0,0,.2);
   border-bottom: .1rem dashed rgba(0,0,0,.2);
 }
@@ -239,11 +239,16 @@ section{
 }
 
 .userContentData button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   font-size: 1rem;
+  margin: 0 auto;
   padding:.2rem 1rem;
   background: none;
   color: #666666;
+  max-width: max-content;
   border-radius: 5rem;
   text-align: center;
   display: flex;
