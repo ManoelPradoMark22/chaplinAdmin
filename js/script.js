@@ -183,9 +183,12 @@ inputValueQuery.addEventListener("keydown", function(e) {
 
 let editItemRef;
 let otherInfoLanch;
+let idAccordionStaysOpen;
 
-window.openEditModal = function openEditModal(index1, index2, objProd){
+window.openEditModal = function openEditModal(index1, index2, objProd, idSubsec){
   editItemRef = ref(db, `lanchonete/subsections/${index1}/products/${index2}`);
+
+  idAccordionStaysOpen = idSubsec;
 
   inputName.value = objProd.name;
   inputDescription.value = objProd.description;
@@ -208,6 +211,11 @@ window.openEditModal = function openEditModal(index1, index2, objProd){
 }
 
 window.closeEditModal = function closeEditModal(){
+  var refAccordion = document.getElementById(idAccordionStaysOpen);
+  refAccordion.classList.add("accordionActivate");
+  var panelOppened = refAccordion.nextElementSibling;
+  panelOppened.style.display = "flex";
+
   refModalEditProd.classList.remove('active');
 }
 
@@ -246,7 +254,7 @@ window.loadLanchonete = async function loadLanchonete() {
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
       document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map((subsec, index1) => 
         `<div>
-          <button type="button" class="accordion" onclick="clickAccordion(this)">${subsec.name}</button>
+          <button id="${index1+subsec.name}" type="button" class="accordion" onclick="clickAccordion(this)">${subsec.name}</button>
           <div class="panel boxWrapContent">
             ${subsec.products.map( (prod, index2) =>
               `
@@ -264,7 +272,8 @@ window.loadLanchonete = async function loadLanchonete() {
                       display: '${prod.display}',
                       price: '${prod.price}',
                       number: '${prod.number}'
-                    })"
+                    },
+                    '${index1+subsec.name}')"
                     >
                   </i>
                   <h1>${prod.name}</h1>
