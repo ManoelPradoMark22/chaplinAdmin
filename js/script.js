@@ -142,7 +142,6 @@ function convertToReal(value) {
 }
 
 window.clickAccordion = function clickAccordion(elem) {
-  console.log('clique botao');
   elem.classList.toggle("accordionActivate");
   var panel = elem.nextElementSibling;
   if (panel.style.display === "flex") {
@@ -208,6 +207,10 @@ window.openEditModal = function openEditModal(index1, index2, objProd){
   refModalEditProd.classList.add('active');
 }
 
+window.closeEditModal = function closeEditModal(){
+  refModalEditProd.classList.remove('active');
+}
+
 window.clickEditProd = function clickEditProd() {
   var justDot = inputValue.value.replace('R$', "");
   justDot = justDot.replace(',', ".");
@@ -225,6 +228,7 @@ window.clickEditProd = function clickEditProd() {
    number: otherInfoLanch.number
   }).then(() => {
     closeModal();
+    closeEditModal();
     showSuccessIcon();
   }).catch((error) => {
     closeModal();
