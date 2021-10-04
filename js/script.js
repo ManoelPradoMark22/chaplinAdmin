@@ -210,12 +210,15 @@ window.openEditModal = function openEditModal(index1, index2, objProd, idSubsec)
   refModalEditProd.classList.add('active');
 }
 
-window.closeEditModal = function closeEditModal(){
+function rearrangeAccordion() {
   var refAccordion = document.getElementById(idAccordionStaysOpen);
   refAccordion.classList.add("accordionActivate");
   var panelOppened = refAccordion.nextElementSibling;
   panelOppened.style.display = "flex";
+}
 
+window.closeEditModal = function closeEditModal(){
+  rearrangeAccordion();
   refModalEditProd.classList.remove('active');
 }
 
@@ -241,6 +244,22 @@ window.clickEditProd = function clickEditProd() {
   }).catch((error) => {
     closeModal();
     alert('Erro ao editar! Verifique sua conexão e carregue novamente a página!');
+  });
+}
+
+window.changeAvailableLanchonete = function changeAvailableLanchonete(index1, index2, availability, idSubsec) {
+  openModal();
+  idAccordionStaysOpen = idSubsec;
+  rearrangeAccordion();
+  const changeAvaiabilityLanchoneteRef = ref(db, `lanchonete/subsections/${index1}/products/${index2}/available`);
+
+  set(changeAvaiabilityLanchoneteRef, availability).then(() => {
+    closeModal();
+    rearrangeAccordion();
+    showSuccessIcon();
+  }).catch((error) => {
+    closeModal();
+    alert('Erro ao atualizar disponibilidade! Verifique sua conexão e carregue novamente a página!');
   });
 }
 
@@ -289,7 +308,7 @@ window.loadLanchonete = async function loadLanchonete() {
                     <div class="circleAvailabilty ${prod.available ? 'colorGreen' : 'colorRed'}"></div>
                     <h3>${prod.available ? 'Disponível' : 'Indisponível'}</h3>
                   </div>
-                  <button type="button" onclick="changeAvailableLanchonete(${index1}, ${index2}, ${!prod.available})">Alternar disponibilidade</button>
+                  <button type="button" onclick="changeAvailableLanchonete(${index1}, ${index2}, ${!prod.available}, '${index1+subsec.name}')">Alternar disponibilidade</button>
                 </div>
               `
             ).join('')}
@@ -314,7 +333,7 @@ function hideSuccessIcon() {
 
 function showSuccessIcon() {
   document.getElementById("divSuccessIcon").style.display = "flex";
-  setTimeout(hideSuccessIcon, 1000);
+  setTimeout(hideSuccessIcon, 500);
 }
 
 window.changeAvailableAdd = function changeAvailableAdd(index, availability) {
@@ -326,7 +345,7 @@ window.changeAvailableAdd = function changeAvailableAdd(index, availability) {
     showSuccessIcon();
   }).catch((error) => {
     closeModal();
-    alert('Erro ao atualizar! Verifique sua conexão e carregue novamente a página!');
+    alert('Erro ao atualizar disponibilidade! Verifique sua conexão e carregue novamente a página!');
   });
 }
 
