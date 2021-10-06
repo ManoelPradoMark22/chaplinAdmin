@@ -98,12 +98,13 @@
     <i class="fas fa-times" id="formEditProd-close"></i>
 
     <form action="" id="editProd_Modal">
-        <h3>Editar</h3>
+        <h3 id="titleModalProd">Editar</h3>
         <input class="box" id="name_field" placeholder="Digite o nome">
         <input class="box" id="description_field" placeholder="Digite a descrição">
         <input type="text" name="priceProd" class="box" id="value_field" value="" placeholder="Digite o valor (R$)">
         <input class="box" id="linkImg_field" placeholder="Cole o link da imagem">
-        <button class="btn" type="button" onclick="clickEditProd()">Editar Produto</button>
+        <button id="editProdButton" class="btn" type="button" onclick="clickEditProd()">Editar Produto</button>
+        <button id="addProdButton" style="display: none;" class="btn" type="button" onclick="clickAddProd()">Criar Produto</button>
     </form>
 
 </div>

@@ -131,6 +131,11 @@ section{
   background: var(--yellow);
 }
 
+.buttonAddProd {
+  max-width: max-content;
+  margin: 2rem auto 1rem;
+}
+
 .sectionsFB {
   display: flex;
   flex-direction: column;
@@ -976,5 +981,6 @@ header .search-bar-container label:hover{
 
 .panel {
   display: none;
+  flex-direction: column;
   overflow: hidden;
 }

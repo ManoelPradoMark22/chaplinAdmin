@@ -158,10 +158,13 @@ formEditProdClose.addEventListener('click', () =>{
   refModalEditProd.classList.remove('active');
 });
 
+let titleModalProd = document.getElementById("titleModalProd");
 let inputName = document.getElementById("name_field");
 let inputDescription = document.getElementById("description_field");
 let inputValue = document.getElementById("value_field");
 let inputLinkImg = document.getElementById("linkImg_field");
+let buttonAddProd = document.getElementById("addProdButton");
+let buttonEditProd = document.getElementById("editProdButton");
 
 const inputValueQuery = document.querySelector('input[name="priceProd"]');
 
@@ -187,6 +190,9 @@ let idAccordionStaysOpen;
 
 window.openEditModal = function openEditModal(index1, index2, objProd, idSubsec){
   editItemRef = ref(db, `lanchonete/subsections/${index1}/products/${index2}`);
+  buttonEditProd.style.display = "block";
+  buttonAddProd.style.display = "none";
+  titleModalProd.innerHTML = "Editar";
 
   idAccordionStaysOpen = idSubsec;
 
@@ -263,6 +269,25 @@ window.changeAvailableLanchonete = function changeAvailableLanchonete(index1, in
   });
 }
 
+window.openAddProdModal = function openAddProdModal(sectionName, indexSection, idSubsec) {
+  buttonEditProd.style.display = "none";
+  buttonAddProd.style.display = "block";
+  titleModalProd.innerHTML = "Criar";
+
+  idAccordionStaysOpen = idSubsec;
+
+  inputName.value = "";
+  inputDescription.value = "";
+  inputValue.value = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    useGrouping: false,
+  }).format(0);
+  inputLinkImg.value = "";
+
+  refModalEditProd.classList.add('active');
+}
+
 window.loadLanchonete = async function loadLanchonete() {
   openModal();
   try {
@@ -274,44 +299,49 @@ window.loadLanchonete = async function loadLanchonete() {
       document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map((subsec, index1) => 
         `<div>
           <button id="${index1+subsec.name}" type="button" class="accordion" onclick="clickAccordion(this)">${subsec.name}</button>
-          <div class="panel boxWrapContent">
-            ${subsec.products.map( (prod, index2) =>
-              `
-                <div class="userContentData userContentDataNormal">
-                  <i class="far fa-edit iconEditProd" title="Editar" onclick="openEditModal(
-                    ${index1},
-                    ${index2},
-                    {
-                      name: '${prod.name}',
-                      description: '${prod.description}',
-                      value: ${prod.priceNumb},
-                      imgLink: '${prod.img}',
-                      available: ${prod.available},
-                      id: '${prod.id}',
-                      display: '${prod.display}',
-                      price: '${prod.price}',
-                      number: '${prod.number}'
-                    },
-                    '${index1+subsec.name}')"
-                    >
-                  </i>
-                  <h1>${prod.name}</h1>
-                  <div>${prod.description}</div>
-                  <div>${convertToReal(prod.priceNumb)}</div>
-                  <div>
-                    <span>Link da imagem: </span>
-                    <a href=${prod.img} target="_blank">
-                    ${prod.img}
-                    </a>
+          <div class="panel">
+            <button class="buttonLoadSection buttonAddProd" type="button" onclick="openAddProdModal('lanchonete', ${index1}, '${index1+subsec.name}')">
+              Criar Produto
+            </button>
+            <div class="boxWrapContent">
+              ${subsec.products.map( (prod, index2) =>
+                `
+                  <div class="userContentData userContentDataNormal">
+                    <i class="far fa-edit iconEditProd" title="Editar" onclick="openEditModal(
+                      ${index1},
+                      ${index2},
+                      {
+                        name: '${prod.name}',
+                        description: '${prod.description}',
+                        value: ${prod.priceNumb},
+                        imgLink: '${prod.img}',
+                        available: ${prod.available},
+                        id: '${prod.id}',
+                        display: '${prod.display}',
+                        price: '${prod.price}',
+                        number: '${prod.number}'
+                      },
+                      '${index1+subsec.name}')"
+                      >
+                    </i>
+                    <h1>${prod.name}</h1>
+                    <div>${prod.description}</div>
+                    <div>${convertToReal(prod.priceNumb)}</div>
+                    <div>
+                      <span>Link da imagem: </span>
+                      <a href=${prod.img} target="_blank">
+                      ${prod.img}
+                      </a>
+                    </div>
+                    <div class="boxAvaiability">
+                      <div class="circleAvailabilty ${prod.available ? 'colorGreen' : 'colorRed'}"></div>
+                      <h3>${prod.available ? 'Disponível' : 'Indisponível'}</h3>
+                    </div>
+                    <button type="button" onclick="changeAvailableLanchonete(${index1}, ${index2}, ${!prod.available}, '${index1+subsec.name}')">Alternar disponibilidade</button>
                   </div>
-                  <div class="boxAvaiability">
-                    <div class="circleAvailabilty ${prod.available ? 'colorGreen' : 'colorRed'}"></div>
-                    <h3>${prod.available ? 'Disponível' : 'Indisponível'}</h3>
-                  </div>
-                  <button type="button" onclick="changeAvailableLanchonete(${index1}, ${index2}, ${!prod.available}, '${index1+subsec.name}')">Alternar disponibilidade</button>
-                </div>
-              `
-            ).join('')}
+                `
+              ).join('')}
+            </div>
           </div>
         </div>`
       ).join('')
