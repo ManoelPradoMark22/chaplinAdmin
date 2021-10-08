@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged , signOut  } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
-import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+import { getDatabase, ref, onValue, set, push } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
 window.addEventListener('online', updateStatus);
 window.addEventListener('offline', updateStatus);
@@ -129,13 +129,6 @@ window.clickLogout = function clickLogout() {
   });
 }
 
-//DATABASE
-let lanchoneteArray = [];
-
-function showArrLachonete(arr) {
-  lanchoneteArray = arr;
-}
-
 function convertToReal(value) {
   const valueConverted = value.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
   return valueConverted;
@@ -185,6 +178,7 @@ inputValueQuery.addEventListener("keydown", function(e) {
 });
 
 let editItemRef;
+let addProdItemRef;
 let otherInfoLanch;
 let idAccordionStaysOpen;
 
@@ -253,6 +247,33 @@ window.clickEditProd = function clickEditProd() {
   });
 }
 
+window.clickAddProd = function clickAddProd() {
+  var justDot = inputValue.value.replace('R$', "");
+  justDot = justDot.replace(',', ".");
+  justDot = parseFloat(justDot);
+  openModal();
+  set(push(addProdItemRef), {
+   name: inputName.value,
+   description: inputDescription.value,
+   priceNumb: justDot,
+   img: inputLinkImg.value,
+   available: true,
+   id: "vai tirar",
+   display: "vai tirar",
+   price: "vai tirar",
+   number: "vai tirar"
+  }).then(() => {
+    console.log('criou');
+    closeModal();
+    closeEditModal();
+    showSuccessIcon();
+  }).catch((error) => {
+    closeModal();
+    alert('Erro ao criar produto! Verifique sua conexão e carregue novamente a página!');
+  });
+}
+
+
 window.changeAvailableLanchonete = function changeAvailableLanchonete(index1, index2, availability, idSubsec) {
   openModal();
   idAccordionStaysOpen = idSubsec;
@@ -270,6 +291,7 @@ window.changeAvailableLanchonete = function changeAvailableLanchonete(index1, in
 }
 
 window.openAddProdModal = function openAddProdModal(sectionName, indexSection, idSubsec) {
+  addProdItemRef = ref(db, `${sectionName}/subsections/${indexSection}/products/`);
   buttonEditProd.style.display = "none";
   buttonAddProd.style.display = "block";
   titleModalProd.innerHTML = "Criar";
@@ -293,7 +315,6 @@ window.loadLanchonete = async function loadLanchonete() {
   try {
     await onValue(lanchoneteRef, (snapshot) => {
       closeModal();
-      showArrLachonete(snapshot.val());
       document.getElementById("idButtonLoadSectionLanchonete").style.display = "none";
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
       document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map((subsec, index1) => 
@@ -304,40 +325,40 @@ window.loadLanchonete = async function loadLanchonete() {
               Criar Produto
             </button>
             <div class="boxWrapContent">
-              ${subsec.products.map( (prod, index2) =>
+              ${Object.entries(subsec.products).map( (prod, index2) =>
                 `
                   <div class="userContentData userContentDataNormal">
                     <i class="far fa-edit iconEditProd" title="Editar" onclick="openEditModal(
                       ${index1},
-                      ${index2},
+                      '${prod[0]}',
                       {
-                        name: '${prod.name}',
-                        description: '${prod.description}',
-                        value: ${prod.priceNumb},
-                        imgLink: '${prod.img}',
-                        available: ${prod.available},
-                        id: '${prod.id}',
-                        display: '${prod.display}',
-                        price: '${prod.price}',
-                        number: '${prod.number}'
+                        name: '${prod[1].name}',
+                        description: '${prod[1].description}',
+                        value: ${prod[1].priceNumb},
+                        imgLink: '${prod[1].img}',
+                        available: ${prod[1].available},
+                        id: '${prod[1].id}',
+                        display: '${prod[1].display}',
+                        price: '${prod[1].price}',
+                        number: '${prod[1].number}'
                       },
                       '${index1+subsec.name}')"
                       >
                     </i>
-                    <h1>${prod.name}</h1>
-                    <div>${prod.description}</div>
-                    <div>${convertToReal(prod.priceNumb)}</div>
+                    <h1>${prod[1].name}</h1>
+                    <div>${prod[1].description}</div>
+                    <div>${convertToReal(prod[1].priceNumb)}</div>
                     <div>
                       <span>Link da imagem: </span>
-                      <a href=${prod.img} target="_blank">
-                      ${prod.img}
+                      <a href=${prod[1].img} target="_blank">
+                      ${prod[1].img}
                       </a>
                     </div>
                     <div class="boxAvaiability">
-                      <div class="circleAvailabilty ${prod.available ? 'colorGreen' : 'colorRed'}"></div>
-                      <h3>${prod.available ? 'Disponível' : 'Indisponível'}</h3>
+                      <div class="circleAvailabilty ${prod[1].available ? 'colorGreen' : 'colorRed'}"></div>
+                      <h3>${prod[1].available ? 'Disponível' : 'Indisponível'}</h3>
                     </div>
-                    <button type="button" onclick="changeAvailableLanchonete(${index1}, ${index2}, ${!prod.available}, '${index1+subsec.name}')">Alternar disponibilidade</button>
+                    <button type="button" onclick="changeAvailableLanchonete(${index1}, '${prod[0]}', ${!prod[1].available}, '${index1+subsec.name}')">Alternar disponibilidade</button>
                   </div>
                 `
               ).join('')}
@@ -384,7 +405,6 @@ window.loadAdittionals = async function loadAdittionals() {
   try {
     await onValue(acaiRef, (snapshot) => {
       closeModal();
-      /*showArrLachonete(snapshot.val()); */
       document.getElementById("idButtonLoadSectionAdittionals").style.display = "none";
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
       document.getElementById('userLoggedAdittionals').innerHTML = snapshot.val().map((add, index) => 
