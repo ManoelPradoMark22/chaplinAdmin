@@ -38,6 +38,16 @@ function closeModal() {
   document.getElementById("textLoading").innerHTML = `Aguarde, carregando...`;
 }
 
+function closingDelayModal() {
+  clearTimeout(mySetTime);
+  setTimeout(() => {
+    modal.style.display = "none";
+    textLoading.innerHTML = `Aguarde, carregando...`;
+    showSuccessIcon();
+    closeEditModal();
+  }, 500);
+}
+
 function openModal() {
   modal.style.display = "flex";
   mySetTime = setTimeout(DezSegundos, 10000);
@@ -238,9 +248,7 @@ window.clickEditProd = function clickEditProd() {
    price: otherInfoLanch.price,
    number: otherInfoLanch.number
   }).then(() => {
-    closeModal();
-    closeEditModal();
-    showSuccessIcon();
+    closingDelayModal();
   }).catch((error) => {
     closeModal();
     alert('Erro ao editar! Verifique sua conexão e carregue novamente a página!');
@@ -264,9 +272,7 @@ window.clickAddProd = function clickAddProd() {
    number: "vai tirar"
   }).then(() => {
     console.log('criou');
-    closeModal();
-    closeEditModal();
-    showSuccessIcon();
+    closingDelayModal();
   }).catch((error) => {
     closeModal();
     alert('Erro ao criar produto! Verifique sua conexão e carregue novamente a página!');
@@ -314,7 +320,7 @@ window.loadLanchonete = async function loadLanchonete() {
   openModal();
   try {
     await onValue(lanchoneteRef, (snapshot) => {
-      closeModal();
+      closingDelayModal();
       document.getElementById("idButtonLoadSectionLanchonete").style.display = "none";
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
       document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map((subsec, index1) => 
@@ -404,7 +410,7 @@ window.loadAdittionals = async function loadAdittionals() {
   openModal();
   try {
     await onValue(acaiRef, (snapshot) => {
-      closeModal();
+      closingDelayModal();
       document.getElementById("idButtonLoadSectionAdittionals").style.display = "none";
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
       document.getElementById('userLoggedAdittionals').innerHTML = snapshot.val().map((add, index) => 
