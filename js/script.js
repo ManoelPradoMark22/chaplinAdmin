@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged , signOut  } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
-import { getDatabase, ref, onValue, set, push } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+import { getDatabase, ref, onValue, set, push, remove } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
 window.addEventListener('online', updateStatus);
 window.addEventListener('offline', updateStatus);
@@ -189,6 +189,7 @@ inputValueQuery.addEventListener("keydown", function(e) {
 
 let editItemRef;
 let addProdItemRef;
+let removeProdItemRef;
 let otherInfoLanch;
 let idAccordionStaysOpen;
 
@@ -317,7 +318,12 @@ window.openAddProdModal = function openAddProdModal(sectionName, indexSection, i
 }
 
 window.openExcludeModal = function openExcludeModal(subsecId, prodId) {
-
+  removeProdItemRef = ref(db, `lanchonete/subsections/${subsecId}/products/${prodId}`);
+  remove(removeProdItemRef).then(() => {
+    console.log("sucesso ao excluir");
+  }).catch((error) => {
+    console.log("erro ao excluir");
+  })
 }
 
 window.loadLanchonete = async function loadLanchonete() {
