@@ -203,6 +203,19 @@ section{
   color: var(--orange);
 }
 
+.iconExcludeProd {
+  position: absolute;
+  left: .3rem;
+  top: .3rem;
+  filter: drop-shadow(2px 4px 8px rgba(0,0,0,.2));
+  cursor: pointer;
+  font-size: 1.7rem;
+}
+
+.iconExcludeProd:hover {
+  color: red;
+}
+
 .userContentData h3{
   
 }

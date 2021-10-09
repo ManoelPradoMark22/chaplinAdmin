@@ -316,6 +316,10 @@ window.openAddProdModal = function openAddProdModal(sectionName, indexSection, i
   refModalEditProd.classList.add('active');
 }
 
+window.openExcludeModal = function openExcludeModal(subsecId, prodId) {
+
+}
+
 window.loadLanchonete = async function loadLanchonete() {
   openModal();
   try {
@@ -334,6 +338,13 @@ window.loadLanchonete = async function loadLanchonete() {
               ${Object.entries(subsec.products).map( (prod, index2) =>
                 `
                   <div class="userContentData userContentDataNormal">
+                    <i class="fas fa-trash iconExcludeProd" title="Excluir" onclick="openExcludeModal(
+                      ${index1},
+                      '${prod[0]}',
+                      )"
+                      >
+                    </i>
+                  
                     <i class="far fa-edit iconEditProd" title="Editar" onclick="openEditModal(
                       ${index1},
                       '${prod[0]}',
