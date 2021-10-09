@@ -156,9 +156,15 @@ window.clickAccordion = function clickAccordion(elem) {
 
 let refModalEditProd = document.getElementById("modalEditProd");
 let formEditProdClose = document.querySelector('#formEditProd-close');
+let refModalDeleteProd = document.getElementById("modalDeleteProd");
+let formDeleteProdClose = document.querySelector('#formDeleteProd-close');
 
 formEditProdClose.addEventListener('click', () =>{
   refModalEditProd.classList.remove('active');
+});
+
+formDeleteProdClose.addEventListener('click', () =>{
+  refModalDeleteProd.classList.remove('active');
 });
 
 let titleModalProd = document.getElementById("titleModalProd");
@@ -319,11 +325,16 @@ window.openAddProdModal = function openAddProdModal(sectionName, indexSection, i
 
 window.openExcludeModal = function openExcludeModal(subsecId, prodId) {
   removeProdItemRef = ref(db, `lanchonete/subsections/${subsecId}/products/${prodId}`);
+
+  refModalDeleteProd.classList.add('active');
+
+  /*
   remove(removeProdItemRef).then(() => {
     console.log("sucesso ao excluir");
   }).catch((error) => {
     console.log("erro ao excluir");
   })
+  */
 }
 
 window.loadLanchonete = async function loadLanchonete() {
