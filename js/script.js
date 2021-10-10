@@ -45,6 +45,7 @@ function closingDelayModal() {
     textLoading.innerHTML = `Aguarde, carregando...`;
     showSuccessIcon();
     closeEditModal();
+    closeDeleteModal();
   }, 500);
 }
 
@@ -239,6 +240,10 @@ window.closeEditModal = function closeEditModal(){
   refModalEditProd.classList.remove('active');
 }
 
+window.closeDeleteModal = function closeDeleteModal(){
+  refModalDeleteProd.classList.remove('active');
+}
+
 window.clickEditProd = function clickEditProd() {
   var justDot = inputValue.value.replace('R$', "");
   justDot = justDot.replace(',', ".");
@@ -323,18 +328,19 @@ window.openAddProdModal = function openAddProdModal(sectionName, indexSection, i
   refModalEditProd.classList.add('active');
 }
 
-window.openExcludeModal = function openExcludeModal(subsecId, prodId) {
-  removeProdItemRef = ref(db, `lanchonete/subsections/${subsecId}/products/${prodId}`);
-
-  refModalDeleteProd.classList.add('active');
-
-  /*
+window.clickDeleteProd = function clickDeleteProd() {
+  openModal();
   remove(removeProdItemRef).then(() => {
-    console.log("sucesso ao excluir");
+    closingDelayModal();
   }).catch((error) => {
     console.log("erro ao excluir");
   })
-  */
+}
+
+window.openExcludeModal = function openExcludeModal(subsecId, prodId, subsecStaysOpen) {
+  removeProdItemRef = ref(db, `lanchonete/subsections/${subsecId}/products/${prodId}`);
+  idAccordionStaysOpen = subsecStaysOpen;
+  refModalDeleteProd.classList.add('active');
 }
 
 window.loadLanchonete = async function loadLanchonete() {
@@ -358,6 +364,7 @@ window.loadLanchonete = async function loadLanchonete() {
                     <i class="fas fa-trash iconExcludeProd" title="Excluir" onclick="openExcludeModal(
                       ${index1},
                       '${prod[0]}',
+                      '${index1+subsec.name}'
                       )"
                       >
                     </i>
