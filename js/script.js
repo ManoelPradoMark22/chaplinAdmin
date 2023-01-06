@@ -49,6 +49,15 @@ function closingDelayModal() {
   }, 500);
 }
 
+function closingJustDelayModal() {
+  clearTimeout(mySetTime);
+  setTimeout(() => {
+    modal.style.display = "none";
+    textLoading.innerHTML = `Aguarde, carregando...`;
+    showSuccessIcon();
+  }, 500);
+}
+
 function openModal() {
   modal.style.display = "flex";
   mySetTime = setTimeout(DezSegundos, 10000);
@@ -146,12 +155,13 @@ function convertToReal(value) {
 }
 
 window.clickAccordion = function clickAccordion(elem) {
-  elem.classList.toggle("accordionActivate");
   var panel = elem.nextElementSibling;
   if (panel.style.display === "flex") {
-  panel.style.display = "none";
+    elem.classList.remove("accordionActivate");
+    panel.style.display = "none";
   } else {
-  panel.style.display = "flex";
+    elem.classList.add("accordionActivate");
+    panel.style.display = "flex";
   }
 }
 
@@ -291,16 +301,30 @@ window.clickAddProd = function clickAddProd() {
   });
 }
 
+const tabsStatus = [];
+
+function mapOpenTabs() {
+  let arrayTabs = document.querySelectorAll('.panel');
+  [...arrayTabs].map((tab, index) => {
+    if(tab?.style?.display === 'flex'){
+      tabsStatus[index] = "style='display:flex'";
+      tab.classList.add("accordionActivate");
+    }else {
+      tabsStatus[index] = "style='display:none'";
+      tab.classList.remove("accordionActivate");
+    }
+  });
+}
 
 window.changeAvailableLanchonete = function changeAvailableLanchonete(index1, index2, availability, idSubsec) {
   openModal();
   idAccordionStaysOpen = idSubsec;
-  rearrangeAccordion();
+  //rearrangeAccordion();
   const changeAvaiabilityLanchoneteRef = ref(db, `lanchonete/subsections/${index1}/products/${index2}/available`);
 
   set(changeAvaiabilityLanchoneteRef, availability).then(() => {
     closeModal();
-    rearrangeAccordion();
+    //rearrangeAccordion();
     showSuccessIcon();
   }).catch((error) => {
     closeModal();
@@ -347,13 +371,14 @@ window.loadLanchonete = async function loadLanchonete() {
   openModal();
   try {
     await onValue(lanchoneteRef, (snapshot) => {
-      closingDelayModal();
+      mapOpenTabs();
+      closingJustDelayModal();
       document.getElementById("idButtonLoadSectionLanchonete").style.display = "none";
        /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
       document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map((subsec, index1) => 
         `<div>
-          <button id="${index1+subsec.name}" type="button" class="accordion" onclick="clickAccordion(this)">${subsec.name}</button>
-          <div class="panel">
+          <button id="${index1+subsec.name}" type="button" class="accordion ${tabsStatus[index1]==="style='display:flex'" ? 'accordionActivate' : ''}" onclick="clickAccordion(this)">${subsec.name}</button>
+          <div class="panel" ${tabsStatus[index1] ? tabsStatus[index1] : ''}>
             <button class="buttonLoadSection buttonAddProd" type="button" onclick="openAddProdModal('lanchonete', ${index1}, '${index1+subsec.name}')">
               Criar Produto
             </button>
