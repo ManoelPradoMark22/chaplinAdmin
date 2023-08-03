@@ -352,7 +352,7 @@ window.loadClubeData = async function loadClubeData() {
               ${stringDataClub}
               <div class="donateDiv">
                 <div class="liTrans">
-                  <span class='nameTrans'>${(String(transaction.name)).toUpperCase()}</span> | <span class="valueTrans ${transaction.isEntrance ? "positive" : "negative"}">${convertToReal(transaction.value)}</span> | <span class="isPaidTrans">${transaction.isPaid ? "✔️" : "AGUARDE"}</span>
+                  <span class='nameTrans'>${(String(transaction.name)).toUpperCase()}</span> | <span class="valueTrans ${transaction.isEntrance ? "positive" : "negative"}">${convertToReal(transaction.value)}</span> | <span class="isPaidTrans">${transaction.isPaid ? "✔️" : "AGUARDE"} | </span>
                 </div>
                 <div class="iconsDiv">
                   <i class="fas fa-trash iconExcludeProd" title="Excluir" onclick="openExcludeModal(
@@ -381,67 +381,6 @@ window.loadClubeData = async function loadClubeData() {
             );
       
             document.getElementById('dataTotal').innerHTML = convertToReal(sumTotal);
-
-    /*
-           document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map((subsec, index1) => 
-           `<div>
-             <button id="${index1+subsec.name}" type="button" class="accordion ${tabsStatus[index1]==="style='display:flex'" ? 'accordionActivate' : ''}" onclick="clickAccordion(this)">${subsec.name}</button>
-             <div class="panel" ${tabsStatus[index1] ? tabsStatus[index1] : ''}>
-               <button class="buttonLoadSection buttonAddProd" type="button" onclick="openAddProdModal('lanchonete', ${index1}, '${index1+subsec.name}')">
-                 Criar Produto
-               </button>
-               <div class="boxWrapContent">
-                 ${Object.entries(subsec.products).map( (prod, index2) =>
-                   `
-                     <div class="userContentData userContentDataNormal">
-                       <i class="fas fa-trash iconExcludeProd" title="Excluir" onclick="openExcludeModal(
-                         ${index1},
-                         '${prod[0]}',
-                         '${index1+subsec.name}'
-                         )"
-                         >
-                       </i>
-                     
-                       <i class="far fa-edit iconEditProd" title="Editar" onclick="openEditModal(
-                         ${index1},
-                         '${prod[0]}',
-                         {
-                           name: '${prod[1].name}',
-                           description: '${prod[1].description}',
-                           value: ${prod[1].priceNumb},
-                           imgLink: '${prod[1].img}',
-                           available: ${prod[1].available},
-                           id: '${prod[1].id}',
-                           display: '${prod[1].display}',
-                           price: '${prod[1].price}',
-                           number: '${prod[1].number}'
-                         },
-                         '${index1+subsec.name}')"
-                         >
-                       </i>
-                       <h1>${prod[1].name}</h1>
-                       <div>${prod[1].description}</div>
-                       <div>${convertToReal(prod[1].priceNumb)}</div>
-                       <div>
-                         <span>Link da imagem: </span>
-                         <a href=${prod[1].img} target="_blank">
-                         ${prod[1].img}
-                         </a>
-                       </div>
-                       <div class="boxAvaiability">
-                         <div class="circleAvailabilty ${prod[1].available ? 'colorGreen' : 'colorRed'}"></div>
-                         <h3>${prod[1].available ? 'Disponível' : 'Indisponível'}</h3>
-                       </div>
-                       <button type="button" onclick="changeAvailableLanchonete(${index1}, '${prod[0]}', ${!prod[1].available}, '${index1+subsec.name}')">Alternar disponibilidade</button>
-                     </div>
-                   `
-                 ).join('')}
-               </div>
-             </div>
-           </div>`
-         ).join('')   
-    */
-
     }, (error) => {
       closeModal();
       alert('Erro ao carregar! Verifique sua conexão e carregue novamente a página!');

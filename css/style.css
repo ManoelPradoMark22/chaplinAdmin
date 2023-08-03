@@ -1003,7 +1003,7 @@ header .search-bar-container label:hover{
 }
 
 #listTransactions .liTrans {
-  flex: 1;
+  margin-right: 2rem;
 }
 
 
