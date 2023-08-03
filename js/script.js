@@ -360,7 +360,7 @@ window.loadClubeData = async function loadClubeData() {
                     )"
                   >
                   </i>
-                
+                 | 
                   <i class="far fa-edit iconEditProd" title="Editar" onclick="openEditModal(
                     '${transaction.id}',
                     {
