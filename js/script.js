@@ -274,21 +274,6 @@ window.clickAddProd = function clickAddProd() {
   });
 }
 
-const tabsStatus = [];
-
-function mapOpenTabs() {
-  let arrayTabs = document.querySelectorAll('.panel');
-  [...arrayTabs].map((tab, index) => {
-    if(tab?.style?.display === 'flex'){
-      tabsStatus[index] = "style='display:flex'";
-      tab.classList.add("accordionActivate");
-    }else {
-      tabsStatus[index] = "style='display:none'";
-      tab.classList.remove("accordionActivate");
-    }
-  });
-}
-
 window.changeAvailableLanchonete = function changeAvailableLanchonete(index1, index2, availability, idSubsec) {
   openModal();
   const changeAvaiabilityLanchoneteRef = ref(db, `lanchonete/subsections/${index1}/products/${index2}/available`);
@@ -335,15 +320,11 @@ window.openExcludeModal = function openExcludeModal(id) {
 }
 
 //section Clube
-window.loadLanchonete = async function loadLanchonete() {
+window.loadClubeData = async function loadClubeData() {
   openModal();
   try {
     await onValue(lanchoneteRef, (snapshot) => {
-      mapOpenTabs();
       closingJustDelayModal();
-      document.getElementById("idButtonLoadSectionLanchonete").style.display = "none";
-
-
             //START CLUB SECTION
             const dataClub = []
             Object.entries(snapshot.val()).map((keyValueDataClub, index) => {
@@ -470,6 +451,8 @@ window.loadLanchonete = async function loadLanchonete() {
     alert('Erro ao carregar! Verifique sua conexão e carregue novamente a página!');
   }
 }
+
+loadClubeData();
 
 function hideSuccessIcon() {
   document.getElementById("divSuccessIcon").style.display = "none";
