@@ -100,9 +100,9 @@
     <form action="" id="editProd_Modal">
         <h3 id="titleModalProd">Editar</h3>
         <input class="box" id="name_field" placeholder="Digite o nome">
-        <input class="box" id="description_field" placeholder="Digite a descrição">
+        <input style="display: none;" class="box" id="description_field" placeholder="Digite a descrição">
         <input type="text" name="priceProd" class="box" id="value_field" value="" placeholder="Digite o valor (R$)">
-        <input class="box" id="linkImg_field" placeholder="Cole o link da imagem">
+        <input style="display: none;" class="box" id="linkImg_field" placeholder="Cole o link da imagem">
         <button id="editProdButton" class="btn" type="button" onclick="clickEditProd()">Editar Produto</button>
         <button id="addProdButton" style="display: none;" class="btn" type="button" onclick="clickAddProd()">Criar Produto</button>
     </form>
@@ -175,6 +175,9 @@
             <div class="titleSection"><span><i class="fas fa-hamburger" style=" margin-right: 5px;"></i></span>Lanchonete<span><i class="fas fa-hamburger" style=" margin-left: 5px;"></i></span></div>
             <button id="idButtonLoadSectionLanchonete" class="buttonLoadSection" type="button" onclick="loadLanchonete()">Carregar dados</button>
             <div id="productsDiv">
+                <button class="buttonLoadSection buttonAddProd" type="button" onclick="openAddProdModal()">
+                    Cadastrar doação
+                </button>
                 <h1 id="dataTotal"></h1>
                 <div id="listTransactions"></div>
             </div>

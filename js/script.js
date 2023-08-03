@@ -208,15 +208,12 @@ let editItemRef;
 let addProdItemRef;
 let removeProdItemRef;
 let otherInfoLanch;
-let idAccordionStaysOpen;
 
 window.openEditModal = function openEditModal(id,obj){
   editItemRef = ref(db, `clubeIbiajara/${id}`);
   buttonEditProd.style.display = "block";
   buttonAddProd.style.display = "none";
   titleModalProd.innerHTML = "Editar";
-
-  idAccordionStaysOpen = idSubsec;
 
   inputName.value = obj.name;
   inputValue.value = new Intl.NumberFormat('pt-BR', {
@@ -228,15 +225,7 @@ window.openEditModal = function openEditModal(id,obj){
   refModalEditProd.classList.add('active');
 }
 
-function rearrangeAccordion() {
-  var refAccordion = document.getElementById(idAccordionStaysOpen);
-  refAccordion.classList.add("accordionActivate");
-  var panelOppened = refAccordion.nextElementSibling;
-  panelOppened.style.display = "flex";
-}
-
 window.closeEditModal = function closeEditModal(){
-  rearrangeAccordion();
   refModalEditProd.classList.remove('active');
 }
 
@@ -251,14 +240,11 @@ window.clickEditProd = function clickEditProd() {
   openModal();
   set(editItemRef, {
    name: inputName.value,
-   description: inputDescription.value,
-   priceNumb: justDot,
-   img: inputLinkImg.value,
-   available: otherInfoLanch.available,
-   id: otherInfoLanch.id,
-   display: otherInfoLanch.display,
-   price: otherInfoLanch.price,
-   number: otherInfoLanch.number
+   value: justDot,
+   categoryType: "donate",
+   isEntrance: true,
+   paymentMethod: "pix",
+   isPaid: true
   }).then(() => {
     closingDelayModal();
   }).catch((error) => {
@@ -274,14 +260,11 @@ window.clickAddProd = function clickAddProd() {
   openModal();
   set(push(addProdItemRef), {
    name: inputName.value,
-   description: inputDescription.value,
-   priceNumb: justDot,
-   img: inputLinkImg.value,
-   available: true,
-   id: "vai tirar",
-   display: "vai tirar",
-   price: "vai tirar",
-   number: "vai tirar"
+   value: justDot,
+   categoryType: "donate",
+   isEntrance: true,
+   paymentMethod: "pix",
+   isPaid: true
   }).then(() => {
     console.log('criou');
     closingDelayModal();
@@ -308,13 +291,10 @@ function mapOpenTabs() {
 
 window.changeAvailableLanchonete = function changeAvailableLanchonete(index1, index2, availability, idSubsec) {
   openModal();
-  idAccordionStaysOpen = idSubsec;
-  //rearrangeAccordion();
   const changeAvaiabilityLanchoneteRef = ref(db, `lanchonete/subsections/${index1}/products/${index2}/available`);
 
   set(changeAvaiabilityLanchoneteRef, availability).then(() => {
     closeModal();
-    //rearrangeAccordion();
     showSuccessIcon();
   }).catch((error) => {
     closeModal();
@@ -322,13 +302,11 @@ window.changeAvailableLanchonete = function changeAvailableLanchonete(index1, in
   });
 }
 
-window.openAddProdModal = function openAddProdModal(sectionName, indexSection, idSubsec) {
-  addProdItemRef = ref(db, `${sectionName}/subsections/${indexSection}/products/`);
+window.openAddProdModal = function openAddProdModal() {
+  addProdItemRef = ref(db, `clubeIbiajara/`);
   buttonEditProd.style.display = "none";
   buttonAddProd.style.display = "block";
   titleModalProd.innerHTML = "Criar";
-
-  idAccordionStaysOpen = idSubsec;
 
   inputName.value = "";
   inputDescription.value = "";
@@ -353,7 +331,6 @@ window.clickDeleteProd = function clickDeleteProd() {
 
 window.openExcludeModal = function openExcludeModal(id) {
   removeProdItemRef = ref(db, `clubeIbiajara/${id}`);
-  idAccordionStaysOpen = subsecStaysOpen;
   refModalDeleteProd.classList.add('active');
 }
 
@@ -394,17 +371,17 @@ window.loadLanchonete = async function loadLanchonete() {
               ${stringDataClub}
               <div class="donateDiv">
                 <div class="liTrans">
-                  <span class='nameTrans'>${transaction.name}</span> | <span class="valueTrans ${transaction.isEntrance ? "positive" : "negative"}">${convertToReal(transaction.value)}</span> | <span class="isPaidTrans">${transaction.isPaid ? "✔️" : "AGUARDE"}</span>
+                  <span class='nameTrans'>${(String(transaction.name)).toUpperCase()}</span> | <span class="valueTrans ${transaction.isEntrance ? "positive" : "negative"}">${convertToReal(transaction.value)}</span> | <span class="isPaidTrans">${transaction.isPaid ? "✔️" : "AGUARDE"}</span>
                 </div>
                 <div class="iconsDiv">
                   <i class="fas fa-trash iconExcludeProd" title="Excluir" onclick="openExcludeModal(
-                    ${transaction.id}
+                    '${transaction.id}'
                     )"
                   >
                   </i>
                 
                   <i class="far fa-edit iconEditProd" title="Editar" onclick="openEditModal(
-                    ${transaction.id},
+                    '${transaction.id}',
                     {
                       name: '${transaction.name}',
                       value: ${transaction.value},
