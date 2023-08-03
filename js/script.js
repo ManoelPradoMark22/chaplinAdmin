@@ -75,7 +75,7 @@ const firebaseApp = initializeApp({
 });
 
 const db = getDatabase(firebaseApp);
-const lanchoneteRef = ref(db, 'lanchonete/');
+const lanchoneteRef = ref(db, 'clubeIbiajara/');
 const acaiRef = ref(db, 'adittionals/');
 
 const auth = getAuth();
@@ -210,30 +210,20 @@ let removeProdItemRef;
 let otherInfoLanch;
 let idAccordionStaysOpen;
 
-window.openEditModal = function openEditModal(index1, index2, objProd, idSubsec){
-  editItemRef = ref(db, `lanchonete/subsections/${index1}/products/${index2}`);
+window.openEditModal = function openEditModal(id,obj){
+  editItemRef = ref(db, `clubeIbiajara/${id}`);
   buttonEditProd.style.display = "block";
   buttonAddProd.style.display = "none";
   titleModalProd.innerHTML = "Editar";
 
   idAccordionStaysOpen = idSubsec;
 
-  inputName.value = objProd.name;
-  inputDescription.value = objProd.description;
+  inputName.value = obj.name;
   inputValue.value = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
     useGrouping: false,
-  }).format(objProd.value);
-  inputLinkImg.value = objProd.imgLink;
-
-  otherInfoLanch = {
-    available: objProd.available,
-    id: objProd.id,
-    display: objProd.display,
-    price: objProd.price,
-    number: objProd.number
-  };
+  }).format(obj.value);
 
   refModalEditProd.classList.add('active');
 }
@@ -361,12 +351,13 @@ window.clickDeleteProd = function clickDeleteProd() {
   })
 }
 
-window.openExcludeModal = function openExcludeModal(subsecId, prodId, subsecStaysOpen) {
-  removeProdItemRef = ref(db, `lanchonete/subsections/${subsecId}/products/${prodId}`);
+window.openExcludeModal = function openExcludeModal(id) {
+  removeProdItemRef = ref(db, `clubeIbiajara/${id}`);
   idAccordionStaysOpen = subsecStaysOpen;
   refModalDeleteProd.classList.add('active');
 }
 
+//section Clube
 window.loadLanchonete = async function loadLanchonete() {
   openModal();
   try {
@@ -374,65 +365,124 @@ window.loadLanchonete = async function loadLanchonete() {
       mapOpenTabs();
       closingJustDelayModal();
       document.getElementById("idButtonLoadSectionLanchonete").style.display = "none";
-       /*AQUI VOU FAZER OS MAPS DAS SEÇÕES! */
-      document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map((subsec, index1) => 
-        `<div>
-          <button id="${index1+subsec.name}" type="button" class="accordion ${tabsStatus[index1]==="style='display:flex'" ? 'accordionActivate' : ''}" onclick="clickAccordion(this)">${subsec.name}</button>
-          <div class="panel" ${tabsStatus[index1] ? tabsStatus[index1] : ''}>
-            <button class="buttonLoadSection buttonAddProd" type="button" onclick="openAddProdModal('lanchonete', ${index1}, '${index1+subsec.name}')">
-              Criar Produto
-            </button>
-            <div class="boxWrapContent">
-              ${Object.entries(subsec.products).map( (prod, index2) =>
-                `
-                  <div class="userContentData userContentDataNormal">
-                    <i class="fas fa-trash iconExcludeProd" title="Excluir" onclick="openExcludeModal(
-                      ${index1},
-                      '${prod[0]}',
-                      '${index1+subsec.name}'
-                      )"
-                      >
-                    </i>
-                  
-                    <i class="far fa-edit iconEditProd" title="Editar" onclick="openEditModal(
-                      ${index1},
-                      '${prod[0]}',
-                      {
-                        name: '${prod[1].name}',
-                        description: '${prod[1].description}',
-                        value: ${prod[1].priceNumb},
-                        imgLink: '${prod[1].img}',
-                        available: ${prod[1].available},
-                        id: '${prod[1].id}',
-                        display: '${prod[1].display}',
-                        price: '${prod[1].price}',
-                        number: '${prod[1].number}'
-                      },
-                      '${index1+subsec.name}')"
-                      >
-                    </i>
-                    <h1>${prod[1].name}</h1>
-                    <div>${prod[1].description}</div>
-                    <div>${convertToReal(prod[1].priceNumb)}</div>
-                    <div>
-                      <span>Link da imagem: </span>
-                      <a href=${prod[1].img} target="_blank">
-                      ${prod[1].img}
-                      </a>
-                    </div>
-                    <div class="boxAvaiability">
-                      <div class="circleAvailabilty ${prod[1].available ? 'colorGreen' : 'colorRed'}"></div>
-                      <h3>${prod[1].available ? 'Disponível' : 'Indisponível'}</h3>
-                    </div>
-                    <button type="button" onclick="changeAvailableLanchonete(${index1}, '${prod[0]}', ${!prod[1].available}, '${index1+subsec.name}')">Alternar disponibilidade</button>
-                  </div>
-                `
-              ).join('')}
-            </div>
-          </div>
-        </div>`
-      ).join('')
 
+
+            //START CLUB SECTION
+            const dataClub = []
+            Object.entries(snapshot.val()).map((keyValueDataClub, index) => {
+              let dataClubObj = keyValueDataClub[1];
+              let dataClubObjKey = keyValueDataClub[0];
+      
+              dataClubObj.id = dataClubObjKey;
+              
+              dataClub.push(dataClubObj);
+            }); 
+      
+            dataClub.sort((a, b) => {
+              if (a.name < b.name) {
+                return -1;
+              }
+              if (a.name > b.name) {
+                return 1;
+              }
+              return 0;
+            })
+      
+            let stringDataClub = '';
+            dataClub.map(transaction => {
+              stringDataClub = `
+              ${stringDataClub}
+              <div class="donateDiv">
+                <div class="liTrans">
+                  <span class='nameTrans'>${transaction.name}</span> | <span class="valueTrans ${transaction.isEntrance ? "positive" : "negative"}">${convertToReal(transaction.value)}</span> | <span class="isPaidTrans">${transaction.isPaid ? "✔️" : "AGUARDE"}</span>
+                </div>
+                <div class="iconsDiv">
+                  <i class="fas fa-trash iconExcludeProd" title="Excluir" onclick="openExcludeModal(
+                    ${transaction.id}
+                    )"
+                  >
+                  </i>
+                
+                  <i class="far fa-edit iconEditProd" title="Editar" onclick="openEditModal(
+                    ${transaction.id},
+                    {
+                      name: '${transaction.name}',
+                      value: ${transaction.value},
+                    })"
+                  >
+                  </i>
+                </div>
+              </div>`
+            })
+      
+            document.getElementById('listTransactions').innerHTML = stringDataClub;
+      
+            const sumTotal = dataClub.reduce(
+              (acc, curr) => acc + curr.value,
+              0
+            );
+      
+            document.getElementById('dataTotal').innerHTML = convertToReal(sumTotal);
+
+    /*
+           document.getElementById('userLoggedLanchonete').innerHTML = snapshot.val().subsections.map((subsec, index1) => 
+           `<div>
+             <button id="${index1+subsec.name}" type="button" class="accordion ${tabsStatus[index1]==="style='display:flex'" ? 'accordionActivate' : ''}" onclick="clickAccordion(this)">${subsec.name}</button>
+             <div class="panel" ${tabsStatus[index1] ? tabsStatus[index1] : ''}>
+               <button class="buttonLoadSection buttonAddProd" type="button" onclick="openAddProdModal('lanchonete', ${index1}, '${index1+subsec.name}')">
+                 Criar Produto
+               </button>
+               <div class="boxWrapContent">
+                 ${Object.entries(subsec.products).map( (prod, index2) =>
+                   `
+                     <div class="userContentData userContentDataNormal">
+                       <i class="fas fa-trash iconExcludeProd" title="Excluir" onclick="openExcludeModal(
+                         ${index1},
+                         '${prod[0]}',
+                         '${index1+subsec.name}'
+                         )"
+                         >
+                       </i>
+                     
+                       <i class="far fa-edit iconEditProd" title="Editar" onclick="openEditModal(
+                         ${index1},
+                         '${prod[0]}',
+                         {
+                           name: '${prod[1].name}',
+                           description: '${prod[1].description}',
+                           value: ${prod[1].priceNumb},
+                           imgLink: '${prod[1].img}',
+                           available: ${prod[1].available},
+                           id: '${prod[1].id}',
+                           display: '${prod[1].display}',
+                           price: '${prod[1].price}',
+                           number: '${prod[1].number}'
+                         },
+                         '${index1+subsec.name}')"
+                         >
+                       </i>
+                       <h1>${prod[1].name}</h1>
+                       <div>${prod[1].description}</div>
+                       <div>${convertToReal(prod[1].priceNumb)}</div>
+                       <div>
+                         <span>Link da imagem: </span>
+                         <a href=${prod[1].img} target="_blank">
+                         ${prod[1].img}
+                         </a>
+                       </div>
+                       <div class="boxAvaiability">
+                         <div class="circleAvailabilty ${prod[1].available ? 'colorGreen' : 'colorRed'}"></div>
+                         <h3>${prod[1].available ? 'Disponível' : 'Indisponível'}</h3>
+                       </div>
+                       <button type="button" onclick="changeAvailableLanchonete(${index1}, '${prod[0]}', ${!prod[1].available}, '${index1+subsec.name}')">Alternar disponibilidade</button>
+                     </div>
+                   `
+                 ).join('')}
+               </div>
+             </div>
+           </div>`
+         ).join('')   
+    */
 
     }, (error) => {
       closeModal();
