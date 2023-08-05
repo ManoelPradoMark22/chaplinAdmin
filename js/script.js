@@ -170,12 +170,25 @@ let formEditProdClose = document.querySelector('#formEditProd-close');
 let refModalDeleteProd = document.getElementById("modalDeleteProd");
 let formDeleteProdClose = document.querySelector('#formDeleteProd-close');
 
+let refModalEditEstablishment = document.getElementById("modalEditEstablishment");
+let formEditEstablishmentClose = document.querySelector('#formEditEstablishment-close');
+let refModalDeleteEstablishment = document.getElementById("modalDeleteEstablishment");
+let formDeleteEstablishmentClose = document.querySelector('#formDeleteEstablishment-close');
+
 formEditProdClose.addEventListener('click', () =>{
   refModalEditProd.classList.remove('active');
 });
 
 formDeleteProdClose.addEventListener('click', () =>{
   refModalDeleteProd.classList.remove('active');
+});
+
+formEditEstablishmentClose.addEventListener('click', () =>{
+  refModalEditEstablishment.classList.remove('active');
+});
+
+formDeleteEstablishmentClose.addEventListener('click', () =>{
+  refModalDeleteEstablishment.classList.remove('active');
 });
 
 let titleModalProd = document.getElementById("titleModalProd");
@@ -317,6 +330,62 @@ window.clickDeleteProd = function clickDeleteProd() {
 window.openExcludeModal = function openExcludeModal(id) {
   removeProdItemRef = ref(db, `clubeIbiajara/donates/${id}`);
   refModalDeleteProd.classList.add('active');
+}
+
+//----Establishment--
+let editEstablishmentRef;
+let addEstablishmentRef;
+let removeEstablishmentRef;
+
+let titleModalEstablishment = document.getElementById("titleModalEstablishment");
+let inputEstablishmentName = document.getElementById("name_field_establishment");
+let inputEstablishmentWpp = document.getElementById("wpp_field_establishment");
+let inputEstablishmentLink = document.getElementById("link_field_establishment");
+let inputEstablishmentImage = document.getElementById("image_field_establishment");
+let buttonAddEstablishment = document.getElementById("addEstablishmentButton");
+let buttonEditEstablishment = document.getElementById("editEstablishmentButton");
+
+var behavior = function (val) {
+  return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+};
+
+const options = {
+  onKeyPress: function (val, e, field, options) {
+      field.mask(behavior.apply({}, arguments), options);
+      console.log(val);
+  }
+};
+
+$('#wpp_field_establishment').mask(behavior, options);
+
+const btn4_ctn = document.querySelector(".btn4_container");
+const button2 = document.querySelector(".button2");
+const button3 = document.querySelector(".button3");
+btn4_ctn.addEventListener("click", () => {
+  button2.classList.toggle("move");
+  button3.classList.toggle("push");
+  if((button2.classList).length===1) {
+    //wpp
+    inputEstablishmentLink.style.display = "none";
+    inputEstablishmentWpp.style.display = "block";
+  }else {
+    //link
+    inputEstablishmentLink.style.display = "block";
+    inputEstablishmentWpp.style.display = "none";
+  }
+});
+
+window.openAddEstablishmentModal = function openAddEstablishmentModal() {
+  addEstablishmentRef = ref(db, `clubeIbiajara/establishments/`);
+  buttonEditEstablishment.style.display = "none";
+  buttonAddEstablishment.style.display = "block";
+  titleModalEstablishment.innerHTML = "Criar";
+
+  inputEstablishmentName.value = "";
+  inputEstablishmentLink.value = "";
+  inputEstablishmentImage.value = "";
+
+  refModalEditEstablishment.classList.add('active');
 }
 
 //section Clube

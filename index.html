@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chaplin Admin</title>
-
+    <script type='text/javascript' src='//code.jquery.com/jquery-compat-git.js'></script>
+    <script type='text/javascript' src='//igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js'></script>
     <script src="https://cdn.lordicon.com/libs/mssddfmo/lord-icon-2.1.0.js"></script>
 
     <!-- font awesome cdn link  -->
@@ -69,7 +70,7 @@
 
 <div class="login-form-container" id="modalLogin">
 
-    <i class="fas fa-times" id="form-close"></i>
+    <i class="fas fa-times closeModalButton" id="form-close"></i>
 
     <form action="" id="login_Modal">
         <h3>login</h3>
@@ -95,7 +96,7 @@
 
 <div class="login-form-container" id="modalEditProd">
 
-    <i class="fas fa-times" id="formEditProd-close"></i>
+    <i class="fas fa-times closeModalButton" id="formEditProd-close"></i>
 
     <form action="" id="editProd_Modal">
         <h3 id="titleModalProd">Editar</h3>
@@ -113,7 +114,7 @@
 
 <div class="login-form-container" id="modalDeleteProd">
 
-    <i class="fas fa-times" id="formDeleteProd-close"></i>
+    <i class="fas fa-times closeModalButton" id="formDeleteProd-close"></i>
 
     <form action="" id="deleteProd_Modal">
         <h3>Excluir</h3>
@@ -122,6 +123,45 @@
     </form>
 
 </div>
+
+
+<!-- edit establishment form container  -->
+
+<div class="login-form-container" id="modalEditEstablishment">
+
+    <i class="fas fa-times closeModalButton" id="formEditEstablishment-close"></i>
+
+    <form action="" id="editEstablishment_Modal">
+        <h3 id="titleModalEstablishment">Editar</h3>
+        <input type="file" id="image_field_establishment">
+        <input class="box" id="name_field_establishment" placeholder="Digite o nome do parceiro/estabelecimento">
+        <div class="btn4_container">
+            <span class="button1"><i class="fab fa-whatsapp"></i></span>
+            <span class="button2"></span>
+            <span class="button3"><i class="fas fa-link"></i></span>
+        </div>
+        <input type="text" name="wppField" class="box" id="wpp_field_establishment" placeholder="Insira o nº de Whastapp - (77) 90000-0000">
+        <input class="box" style="display: none;" id="link_field_establishment" placeholder="Cole o link">
+        <button id="editEstablishmentButton" class="btn" type="button" onclick="">Editar Parceiro</button>
+        <button id="addEstablishmentButton" style="display: none;" class="btn" type="button" onclick="">Cadastrar Parceiro</button>
+    </form>
+
+</div>
+
+<!-- delete establishment modal container  -->
+
+<div class="login-form-container" id="modalDeleteEstablishment">
+
+    <i class="fas fa-times closeModalButton" id="formDeleteEstablishment-close"></i>
+
+    <form action="" id="deleteEstablishment_Modal">
+        <h3>Excluir</h3>
+        <p style="text-align: center;">Atenção! O Parceiro será excluído!</p>
+        <button class="btn" type="button" onclick="">Excluir Parceiro</button>
+    </form>
+
+</div>
+
 
 <!-- book section starts  -->
 
@@ -180,7 +220,7 @@
 
         <div class="sectionEstablishment">
             <div class="titleSection">Parceiros contribuintes</div>
-            <button class="buttonLoadSection buttonAddProd" type="button" onclick="">
+            <button class="buttonLoadSection buttonAddProd" type="button" onclick="openAddEstablishmentModal()">
                 Cadastrar Parceiro
             </button>
             <div id="establishmentsDiv">
