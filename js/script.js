@@ -382,6 +382,47 @@ window.loadClubeData = async function loadClubeData() {
             );
       
             document.getElementById('dataTotal').innerHTML = convertToReal(sumTotal);
+
+
+            const dataEstablishments = [];
+
+            Object.entries(allDataClub.establishments).map((keyValueEstablishments, index) => {
+              let establishmentsObj = keyValueEstablishments[1];
+              let establishmentsObjKey = keyValueEstablishments[0];
+      
+              establishmentsObj.id = establishmentsObjKey;
+              
+              dataEstablishments.push(establishmentsObj);
+            }); 
+      
+            dataEstablishments.sort((a, b) => {
+              if (a.name < b.name) {
+                return -1;
+              }
+              if (a.name > b.name) {
+                return 1;
+              }
+              return 0;
+            });
+      
+            let stringEstablishments = '';
+            dataEstablishments.map(establishment => {
+              stringEstablishments = `${stringEstablishments}
+              <div class="establishmentContainer">
+                <div class="establishmentBox">
+                    <div class="imgEstablishmentDiv">
+                      <img class="imgEstablishment" src="${establishment.image}" alt="">
+                      <i class="far fa-edit iconLink iconLinkRight"></i>
+                      <i class="fas fa-trash iconLink iconLinkLeft"></i>
+                    </div>
+                    <span class="titleEstablishment">${establishment.name}</span>
+                </div>
+              </div>
+              `
+            })
+
+            document.getElementById('establishmentsDiv').innerHTML = stringEstablishments;
+
     }, (error) => {
       closeModal();
       alert('Erro ao carregar! Verifique sua conexão e carregue novamente a página!');
