@@ -210,7 +210,7 @@ let removeProdItemRef;
 let otherInfoLanch;
 
 window.openEditModal = function openEditModal(id,obj){
-  editItemRef = ref(db, `clubeIbiajara/${id}`);
+  editItemRef = ref(db, `clubeIbiajara/donates/${id}`);
   buttonEditProd.style.display = "block";
   buttonAddProd.style.display = "none";
   titleModalProd.innerHTML = "Editar";
@@ -288,7 +288,7 @@ window.changeAvailableLanchonete = function changeAvailableLanchonete(index1, in
 }
 
 window.openAddProdModal = function openAddProdModal() {
-  addProdItemRef = ref(db, `clubeIbiajara/`);
+  addProdItemRef = ref(db, `clubeIbiajara/donates/`);
   buttonEditProd.style.display = "none";
   buttonAddProd.style.display = "block";
   titleModalProd.innerHTML = "Criar";
@@ -315,7 +315,7 @@ window.clickDeleteProd = function clickDeleteProd() {
 }
 
 window.openExcludeModal = function openExcludeModal(id) {
-  removeProdItemRef = ref(db, `clubeIbiajara/${id}`);
+  removeProdItemRef = ref(db, `clubeIbiajara/donates/${id}`);
   refModalDeleteProd.classList.add('active');
 }
 
