@@ -326,8 +326,9 @@ window.loadClubeData = async function loadClubeData() {
     await onValue(lanchoneteRef, (snapshot) => {
       closingJustDelayModal();
             //START CLUB SECTION
+            const allDataClub = snapshot.val();
             const dataClub = []
-            Object.entries(snapshot.val()).map((keyValueDataClub, index) => {
+            Object.entries(allDataClub.donates).map((keyValueDataClub, index) => {
               let dataClubObj = keyValueDataClub[1];
               let dataClubObjKey = keyValueDataClub[0];
       
