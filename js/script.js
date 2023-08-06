@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged , signOut  } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
 import { getDatabase, ref, onValue, set, push, remove } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+import { getStorage, ref as refStorage } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
 
 window.addEventListener('online', updateStatus);
 window.addEventListener('offline', updateStatus);
@@ -75,7 +76,11 @@ const firebaseApp = initializeApp({
 });
 
 const db = getDatabase(firebaseApp);
+const storage = getStorage(firebaseApp);
+
 const lanchoneteRef = ref(db, 'clubeIbiajara/');
+const storageRef = refStorage(storage, 'establishments');
+
 const acaiRef = ref(db, 'adittionals/');
 
 const auth = getAuth();
@@ -344,6 +349,7 @@ let inputEstablishmentLink = document.getElementById("link_field_establishment")
 let inputEstablishmentImage = document.getElementById("image_field_establishment");
 let buttonAddEstablishment = document.getElementById("addEstablishmentButton");
 let buttonEditEstablishment = document.getElementById("editEstablishmentButton");
+let divImgEstablishment = document.querySelector(".imgEstablishment");
 
 var behavior = function (val) {
   return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
@@ -382,11 +388,46 @@ window.openAddEstablishmentModal = function openAddEstablishmentModal() {
   titleModalEstablishment.innerHTML = "Criar";
 
   inputEstablishmentName.value = "";
+  inputEstablishmentWpp.value = "";
   inputEstablishmentLink.value = "";
   inputEstablishmentImage.value = "";
+  divImgEstablishment.setAttribute("src", './images/folder_icon.png')
 
   refModalEditEstablishment.classList.add('active');
 }
+
+let file;
+let fileName = '';
+let uploaded_image_src = ''
+
+inputEstablishmentImage.addEventListener("change", (e) => {
+  file = e.target.files[0];
+  fileName = Math.round(Math.random() * 9999) + file.name;
+  console.log('fileName:', fileName);
+  console.log('file:', file);
+
+  const reader = new FileReader();
+  reader.addEventListener("load", () => {
+    uploaded_image_src = reader.result;
+    console.log(uploaded_image_src)
+    divImgEstablishment.setAttribute("src", uploaded_image_src)
+  });
+  reader.readAsDataURL(file);
+})
+
+// window.getImageData = function getImageData(e) {
+//   file = e.target.files[0];
+//   fileName = Math.round(Math.random() * 9999) + file.name;
+//   console.log('fileName:', fileName);
+//   console.log('file:', file);
+
+//   const reader = new FileReader();
+//   reader.addEventListener("load", () => {
+//     uploaded_image = reader.result;
+//     console.log(uploaded_image)
+//     document.querySelector(".imgEstablishment").setAttribute("src", uploaded_image)
+//   })
+// };
 
 //section Clube
 window.loadClubeData = async function loadClubeData() {

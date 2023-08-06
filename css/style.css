@@ -1087,7 +1087,7 @@ header .search-bar-container label:hover{
   color: red;
 }
 
-.establishmentContainer .establishmentBox {
+.establishmentBox {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1096,7 +1096,7 @@ header .search-bar-container label:hover{
   position: relative;
 }
 
-.establishmentContainer .establishmentBox .imgEstablishmentDiv {
+.imgEstablishmentDiv {
   user-select: none;
   display: flex;
   align-items: center;
@@ -1110,12 +1110,12 @@ header .search-bar-container label:hover{
   margin-bottom: 0.4rem;
 }
 
-.establishmentContainer .establishmentBox .imgEstablishmentDiv .imgEstablishment {
+.imgEstablishmentDiv .imgEstablishment {
   max-width: 100%;
   height: auto;
 }
 
-.establishmentContainer .establishmentBox .titleEstablishment {
+.establishmentBox .titleEstablishment {
   font-weight: bold;
   text-align: center;
   text-decoration: none;
